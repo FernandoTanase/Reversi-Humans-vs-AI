@@ -15,8 +15,5 @@ env/
 # Ignore logs
 *.log
 
-# Ignore documents (if you don't want them tracked)
-documents/
-
 # Ignore assignment PDF file
 HW2.PDF
