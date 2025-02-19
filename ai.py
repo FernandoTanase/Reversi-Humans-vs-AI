@@ -73,8 +73,13 @@ def utility(board, player):
     return player_pieces - opponent_pieces
 
 def greedy_ai(board, player):
-    
-    pass
+    valid_moves = []
+    for row in range(len(board)):
+        for col in range(len(board)):
+            if is_valid_move(row, col, board, player):
+                score = utility(board, player)
+                valid_moves.append((row, col, score))
+    return max(valid_moves, key=lambda x: x[2])[:2]
 
 def minimax_ai(board, player, depth):
     # Your code here
