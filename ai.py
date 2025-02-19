@@ -64,13 +64,33 @@ def random_ai(board, player):
     return random.choice(valid_moves)
 
 def utility(board, player):
+    """
+    Evaluate the board position for the given player.
+    Returns a numeric score where higher is better for the player.
+    """
     opponent = "white" if player == "black" else "black"
     
-    # Basic heuristic: piece difference
-    player_pieces = sum(row.count(player) for row in board)
-    opponent_pieces = sum(row.count(opponent) for row in board)
+    # Count pieces
+    player_count = sum(row.count(player) for row in board)
+    opponent_count = sum(row.count(opponent) for row in board)
     
-    return player_pieces - opponent_pieces
+    # Corner control (corners are valuable)
+    corners = [(0,0), (0,7), (7,0), (7,7)]
+    player_corners = sum(1 for r,c in corners if board[r][c] == player)
+    opponent_corners = sum(1 for r,c in corners if board[r][c] == opponent)
+    
+    # Mobility (number of valid moves)
+    player_moves = sum(1 for r in range(8) for c in range(8) 
+                      if is_valid_move(r, c, board, player))
+    opponent_moves = sum(1 for r in range(8) for c in range(8) 
+                        if is_valid_move(r, c, board, opponent))
+    
+    # Calculate weighted score
+    score = (player_count - opponent_count) * 1.0 + \
+            (player_corners - opponent_corners) * 25.0 + \
+            (player_moves - opponent_moves) * 5.0
+            
+    return score
 
 def greedy_ai(board, player):
     valid_moves = []
