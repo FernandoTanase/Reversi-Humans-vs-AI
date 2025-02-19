@@ -1,0 +1,22 @@
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
+
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore VS Code settings folder
+.vscode/
+
+# Ignore macOS system files (if applicable)
+.DS_Store
+
+# Ignore logs
+*.log
+
+# Ignore documents (if you don't want them tracked)
+documents/
+
+# Ignore assignment PDF file
+HW2.PDF
