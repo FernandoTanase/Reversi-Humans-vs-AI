@@ -64,11 +64,16 @@ def random_ai(board, player):
     return random.choice(valid_moves)
 
 def utility(board, player):
-    # Your code here
-    pass
+    opponent = "white" if player == "black" else "black"
+    
+    # Basic heuristic: piece difference
+    player_pieces = sum(row.count(player) for row in board)
+    opponent_pieces = sum(row.count(opponent) for row in board)
+    
+    return player_pieces - opponent_pieces
 
 def greedy_ai(board, player):
-    # Your code here
+    
     pass
 
 def minimax_ai(board, player, depth):
