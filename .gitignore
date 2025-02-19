@@ -17,3 +17,5 @@ env/
 
 # Ignore assignment PDF file
 HW2.PDF
+#Ignore temp files
+tempCodeRunnerFile.py

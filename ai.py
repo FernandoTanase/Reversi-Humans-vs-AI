@@ -64,10 +64,6 @@ def random_ai(board, player):
     return random.choice(valid_moves)
 
 def utility(board, player):
-    """
-    Evaluate the board position for the given player.
-    Returns a numeric score where higher is better for the player.
-    """
     opponent = "white" if player == "black" else "black"
     
     # Count pieces
@@ -102,8 +98,86 @@ def greedy_ai(board, player):
     return max(valid_moves, key=lambda x: x[2])[:2]
 
 def minimax_ai(board, player, depth):
-    # Your code here
-    pass
+    def max_value(board, player, depth):
+        # Base cases
+        if depth == 0:  # Reached maximum depth
+            return utility(board, player)
+        
+        valid_moves = []
+        for row in range(len(board)):
+            for col in range(len(board)):
+                if is_valid_move(row, col, board, player):
+                    valid_moves.append((row, col))
+        
+        if not valid_moves:  # No valid moves left
+            return utility(board, player)
+            
+        max_score = float('-inf')
+        for row, col in valid_moves:
+            # Create a copy of the board
+            new_board = [row[:] for row in board]
+            new_board[row][col] = player
+            change_pieces(row, col, new_board, player)
+            
+            # Recursive call with opponent's turn and decreased depth
+            opponent = "white" if player == "black" else "black"
+            score = min_value(new_board, opponent, depth - 1)
+            max_score = max(max_score, score)
+        
+        return max_score
+
+    def min_value(board, player, depth):
+        # Base cases
+        if depth == 0:
+            return utility(board, original_player)  # Evaluate from original player's perspective
+            
+        valid_moves = []
+        for row in range(len(board)):
+            for col in range(len(board)):
+                if is_valid_move(row, col, board, player):
+                    valid_moves.append((row, col))
+        
+        if not valid_moves:
+            return utility(board, original_player)
+            
+        min_score = float('inf')
+        for row, col in valid_moves:
+            new_board = [row[:] for row in board]
+            new_board[row][col] = player
+            change_pieces(row, col, new_board, player)
+            
+            opponent = "white" if player == "black" else "black"
+            score = max_value(new_board, opponent, depth - 1)
+            min_score = min(min_score, score)
+            
+        return min_score
+
+    # Start of minimax_ai function
+    original_player = player
+    best_score = float('-inf')
+    best_move = None
+    
+    # Find all valid moves
+    valid_moves = []
+    for row in range(len(board)):
+        for col in range(len(board)):
+            if is_valid_move(row, col, board, player):
+                valid_moves.append((row, col))
+    
+    # Try each move and find the best one
+    for row, col in valid_moves:
+        new_board = [row[:] for row in board]
+        new_board[row][col] = player
+        change_pieces(row, col, new_board, player)
+        
+        opponent = "white" if player == "black" else "black"
+        score = min_value(new_board, opponent, depth - 1)
+        
+        if score > best_score:
+            best_score = score
+            best_move = (row, col)
+    
+    return best_move
 
 def alpha_beta_ai(board, player, depth):
     # Your code here
