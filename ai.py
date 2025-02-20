@@ -180,5 +180,90 @@ def minimax_ai(board, player, depth):
     return best_move
 
 def alpha_beta_ai(board, player, depth):
-    # Your code here
-    pass
+    def max_value(board, player, depth, alpha, beta):
+        # Base cases
+        if depth == 0:
+            return utility(board, player)
+        
+        valid_moves = []
+        for row in range(len(board)):
+            for col in range(len(board)):
+                if is_valid_move(row, col, board, player):
+                    valid_moves.append((row, col))
+        
+        if not valid_moves:
+            return utility(board, player)
+            
+        max_score = float('-inf')
+        for row, col in valid_moves:
+            new_board = [row[:] for row in board]
+            new_board[row][col] = player
+            change_pieces(row, col, new_board, player)
+            
+            opponent = "white" if player == "black" else "black"
+            score = min_value(new_board, opponent, depth - 1, alpha, beta)
+            max_score = max(max_score, score)
+            
+            alpha = max(alpha, max_score)
+            if beta <= alpha:  # Beta cutoff
+                break
+                
+        return max_score
+
+    def min_value(board, player, depth, alpha, beta):
+        if depth == 0:
+            return utility(board, original_player)
+            
+        valid_moves = []
+        for row in range(len(board)):
+            for col in range(len(board)):
+                if is_valid_move(row, col, board, player):
+                    valid_moves.append((row, col))
+        
+        if not valid_moves:
+            return utility(board, original_player)
+            
+        min_score = float('inf')
+        for row, col in valid_moves:
+            new_board = [row[:] for row in board]
+            new_board[row][col] = player
+            change_pieces(row, col, new_board, player)
+            
+            opponent = "white" if player == "black" else "black"
+            score = max_value(new_board, opponent, depth - 1, alpha, beta)
+            min_score = min(min_score, score)
+            
+            beta = min(beta, min_score)
+            if beta <= alpha:  # Alpha cutoff
+                break
+                
+        return min_score
+
+    # Start of alpha_beta_ai function
+    original_player = player
+    best_score = float('-inf')
+    best_move = None
+    alpha = float('-inf')
+    beta = float('inf')
+    
+    valid_moves = []
+    for row in range(len(board)):
+        for col in range(len(board)):
+            if is_valid_move(row, col, board, player):
+                valid_moves.append((row, col))
+    
+    for row, col in valid_moves:
+        new_board = [row[:] for row in board]
+        new_board[row][col] = player
+        change_pieces(row, col, new_board, player)
+        
+        opponent = "white" if player == "black" else "black"
+        score = min_value(new_board, opponent, depth - 1, alpha, beta)
+        
+        if score > best_score:
+            best_score = score
+            best_move = (row, col)
+            
+        alpha = max(alpha, best_score)
+    
+    return best_move
