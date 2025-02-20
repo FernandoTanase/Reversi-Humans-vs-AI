@@ -19,3 +19,7 @@ env/
 HW2.PDF
 #Ignore temp files
 tempCodeRunnerFile.py
+
+#Ignore word files (documentation)
+*.docx
+ 
