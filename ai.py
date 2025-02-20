@@ -64,6 +64,11 @@ def random_ai(board, player):
     return random.choice(valid_moves)
 
 def utility(board, player):
+    '''Calculate the utility of the current board state for the given player.
+    The utility function is based on the following factors:
+    - Number of pieces
+    - Number of corners controlled
+    - Number of valid moves'''
     opponent = "white" if player == "black" else "black"
     
     # Count pieces
@@ -89,6 +94,7 @@ def utility(board, player):
     return score
 
 def greedy_ai(board, player):
+    '''Greedy AI that selects the move with the highest utility.'''
     valid_moves = []
     for row in range(len(board)):
         for col in range(len(board)):
@@ -98,6 +104,7 @@ def greedy_ai(board, player):
     return max(valid_moves, key=lambda x: x[2])[:2]
 
 def minimax_ai(board, player, depth):
+    '''Minimax AI that selects the move with the highest utility using the vanilla minimax algorithm.'''
     def max_value(board, player, depth):
         # Base cases
         if depth == 0:  # Reached maximum depth
@@ -180,6 +187,7 @@ def minimax_ai(board, player, depth):
     return best_move
 
 def alpha_beta_ai(board, player, depth):
+    '''Minimax AI that selects the move with the highest utility using the alpha-beta pruning version of minimax.'''
     def max_value(board, player, depth, alpha, beta):
         # Base cases
         if depth == 0:
