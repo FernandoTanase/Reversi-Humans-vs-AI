@@ -16,10 +16,9 @@ env/
 *.log
 
 # Ignore assignment PDF file
-HW2.PDF
+*.PDF
 #Ignore temp files
 tempCodeRunnerFile.py
 
 #Ignore word files (documentation)
 *.docx
- 
